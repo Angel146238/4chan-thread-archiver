@@ -45,7 +45,7 @@ func GetVersionString() string {
 // PrintLicense prints the license information to stdout
 func PrintLicense() {
 	fmt.Println("")
-	fmt.Println("Starting 4chan thread Archiver version: " + GetVersionString())
+	fmt.Println("Starting 4chan Thread Archiver version: " + GetVersionString())
 	fmt.Println("Copyright (c) 2015 Henry Slawniak <henry@slawniak.com>")
 	fmt.Println("SPDX-License-Identifier: MIT")
 	fmt.Println("")
