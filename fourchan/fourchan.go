@@ -27,6 +27,7 @@ import (
 	"encoding/json"
 )
 
+// GetThread returns a *Thread or an error, given the board anf thread number
 func GetThread(board string, number int) (*Thread, error) {
 	url := FormatThreadURL(board, number)
 

@@ -22,10 +22,12 @@
 
 package fourchan
 
+// Thread represents a 4chan thread, a slice of posts.
 type Thread struct {
 	Posts []Post
 }
 
+// Post represents a 4chan post, chceck api.md for more info on it's structure.
 type Post struct {
 	Number         int              `json:"no"`              // Post number
 	Resto          int              `json:"resto"`           // Reply to

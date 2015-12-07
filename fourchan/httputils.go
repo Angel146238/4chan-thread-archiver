@@ -27,6 +27,7 @@ import (
 	"net/http"
 )
 
+// GetHTMLBody returns the body of an HTTP GET request as a []byte, or an error
 func GetHTMLBody(url string) ([]byte, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
@@ -44,6 +45,7 @@ func GetHTMLBody(url string) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
+// GetHTMLHead returns the response of an HTTP HEAD request or an error
 func GetHTMLHead(url string) (*http.Response, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("HEAD", url, nil)
