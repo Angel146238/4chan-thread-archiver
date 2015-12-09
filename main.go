@@ -7,7 +7,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/GeertJohan/go.rice"
 	"github.com/HenrySlawniak/4chan-thread-archiver/fourchan"
+	"html/template"
 	"io/ioutil"
 	"os"
 	"runtime/debug"
@@ -17,6 +19,9 @@ import (
 )
 
 const VERSION = "0.0.0"
+
+var threadTemplate *template.Template
+var box *rice.Box
 
 var threads = []string{
 	"po:533882",
@@ -53,6 +58,18 @@ func PrintLicense() {
 
 func main() {
 	PrintLicense()
+
+	var err error
+	box, err = rice.FindBox("templates")
+	if err != nil {
+		panic(err)
+	}
+
+	threadTemplate, err = template.New("thread").Parse(box.MustString("thread.html")) //.ParseFiles("./templates/thread.html")
+	if err != nil {
+		panic(err)
+	}
+
 	for {
 		DumpThreads()
 	}
@@ -73,6 +90,15 @@ func DumpThreads() {
 		os.MkdirAll(folder, os.ModeDir)
 
 		threadData := ThreadData{}
+		threadFileloc := fmt.Sprintf("%s/%d.html", folder, threadnum)
+		threadFile, err := os.OpenFile(threadFileloc, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0777)
+		if err != nil {
+			debug.PrintStack()
+			fmt.Println(err.Error())
+			continue
+		}
+		defer threadFile.Close()
+		threadTemplate.Execute(threadFile, map[string]interface{}{"posts": thread.Posts})
 		for _, post := range thread.Posts {
 			if post.Tim > 0 {
 				url := fourchan.FormatImageURL(board, post.Tim, post.Ext)

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.red-green.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+  <title></title>
+  <style>
+    body .site {
+      font-family: 'Roboto', 'Helvetica', sans-serif;
+    }
+
+    .site-posts {
+      max-width: 900px;
+      padding: 0;
+      /*display: flex;*/
+      width: 100%;
+      margin: 0 auto;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="mdl-color--grey-100 mdl-color-text--grey-700 mdl-base site">
+  <div class="site mdl-layout mdl-js-layout has-drawer is-upgraded">
+    <main class="mdl-layout__content">
+      <div class="site-posts">
+        <section class="section__center mdl-grid mdl-grid__no-spacing">
+          {{ range $post := .posts }}
+          <div class="mdl-card mdl-cell mdl-cell--12-col" id="p{{ $post.Number }}">
+            <div class="mdl-card__title">
+              <h4 class="mdl-card__title-text">{{ $post.Number }}</h4>
+              <h7>{{ $post.Now }}</h7>
+            </div>
+            <div class="mdl-card__sipporting-text">
+              {{ if gt $post.Tim 0 }}
+              {{ if $post.IsVideo }}
+              <video src="assets/{{$post.Tim}}{{$post.Ext}}" mute loop controls></video>
+              {{else if $post.IsImage}}
+              <img src="assets/{{$post.Tim}}{{$post.Ext}}" />
+              {{end}}
+              {{ end }}
+              {{ $post.Com }}
+            </div>
+          </div>
+          {{ end }}
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.5.4/CustomElements.min.js"></script>
+</body>
+</html>

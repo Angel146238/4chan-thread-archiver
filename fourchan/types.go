@@ -5,6 +5,8 @@
 
 package fourchan
 
+import "html/template"
+
 // Thread represents a 4chan thread, a slice of posts.
 type Thread struct {
 	Posts []Post
@@ -26,7 +28,7 @@ type Post struct {
 	Country        string           `json:"country"`         // Country Code
 	CountryName    string           `json:"country_name"`    // Country Name
 	Sub            string           `json:"sub"`             // Subject
-	Com            string           `json:"com"`             // Comment (escaped HTML)
+	Com            template.HTML    `json:"com"`             // Comment (escaped HTML)
 	Tim            int              `json:"tim"`             // Renamed filename
 	Filename       string           `json:"filename"`        // Original filename
 	Ext            string           `json:"ext"`             // File extenstion
@@ -49,4 +51,12 @@ type Post struct {
 	LastModified   int              `json:"last_modified"`   // Time when last modified
 	Tag            string           `json:"tag"`             // Thread tag
 	SemanticUrl    string           `json:"semantic_url"`    // Thread URL slug
+}
+
+func (p Post) IsImage() bool {
+	return p.Ext == ".png" || p.Ext == ".jpg" || p.Ext == ".gif"
+}
+
+func (p Post) IsVideo() bool {
+	return p.Ext == ".webm"
 }
