@@ -6,6 +6,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/GeertJohan/go.rice"
 	"github.com/HenrySlawniak/4chan-thread-archiver/fourchan"
@@ -42,23 +43,16 @@ type Image struct {
 	Url      string
 }
 
-// GetVersionString returns the version string
-func GetVersionString() string {
-	return VERSION + " api-" + fourchan.API_VERSION + "-git-" + GitDescribe()
-}
-
-// PrintLicense prints the license information to stdout
-func PrintLicense() {
-	fmt.Println("")
-	fmt.Println("Starting 4chan Thread Archiver version: " + GetVersionString())
-	fmt.Println("Copyright (c) 2015 Henry Slawniak <henry@slawniak.com>")
-	fmt.Println("SPDX-License-Identifier: MIT")
-	fmt.Println("")
-}
-
 func main() {
 	PrintLicense()
+	SetupTemplates()
 
+	for {
+		DumpThreads()
+	}
+}
+
+func SetupTemplates() {
 	var err error
 	box, err = rice.FindBox("templates")
 	if err != nil {
@@ -68,10 +62,6 @@ func main() {
 	threadTemplate, err = template.New("thread").Parse(box.MustString("thread.html")) //.ParseFiles("./templates/thread.html")
 	if err != nil {
 		panic(err)
-	}
-
-	for {
-		DumpThreads()
 	}
 }
 
