@@ -29,6 +29,10 @@ func LoadThreadsFromFile(file string) {
 	for scanner.Scan() {
 		i := scanner.Text()
 		splat := strings.Split(i, ":")
+		if len(splat) < 2 {
+			fmt.Println(i + " is not a valid 4chan thread input")
+			continue
+		}
 		num, err := strconv.Atoi(splat[1])
 		if err != nil {
 			fmt.Println(i + " is not a valid 4chan thread input")
@@ -46,6 +50,10 @@ func LoadThreadsFromFile(file string) {
 func LoadThreadsFromArgs(args []string) {
 	for _, i := range args {
 		splat := strings.Split(i, ":")
+		if len(splat) < 2 {
+			fmt.Println(i + " is not a valid 4chan thread input")
+			continue
+		}
 		num, err := strconv.Atoi(splat[1])
 		if err != nil {
 			fmt.Println(i + " is not a valid 4chan thread input")
