@@ -3,7 +3,10 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/HenrySlawniak/4chan-thread-archiver/fourchan"
+)
 
 // GetVersionString returns the version string
 func GetVersionString() string {
